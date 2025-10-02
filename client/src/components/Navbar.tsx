@@ -4,7 +4,10 @@
  */
 import Image from "next/image";
 import Link from "next/link";
-const Navbar = () => {
+import { SearchBar } from ".";
+import { Bell, Home, ShoppingCart } from "lucide-react";
+
+const NavBar = () => {
   return (
     <nav className="w-full flex items-center justify-between border-b border-gray-200 pb-4">
       {/* Left */}
@@ -16,12 +19,22 @@ const Navbar = () => {
           height={36}
           className="w-6 h-6 md:w-9 md:h-9"
         />
-        <p className="text-md font-medium tracking-wider">TREND-MASSI.</p>
+        <p className="hidden md:block text-md font-medium tracking-wider">
+          TREND-MASSI.
+        </p>
       </Link>
-      <div className="">{/* Navigation Links */}</div>
-      <div className="">RIGHT</div>
+
+      <div className="flex items-center gap-6">
+        <SearchBar />
+        <Link href="/">
+          <Home className="h-4 w-4 text-gray-600" />
+        </Link>
+        <Bell className="h-4 w-4 text-gray-600" />
+        <ShoppingCart className="h-4 w-4 text-gray-600" />
+        <Link href="/login">Sign In</Link>
+      </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default NavBar;
