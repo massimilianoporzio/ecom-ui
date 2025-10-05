@@ -1,3 +1,7 @@
+/*
+ *   Copyright (c) 2025 Massimiliano Porzio
+ *   All rights reserved.
+ */
 import Image from "next/image";
 import Link from "next/link";
 
