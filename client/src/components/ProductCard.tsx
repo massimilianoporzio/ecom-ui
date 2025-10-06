@@ -10,13 +10,15 @@ import Link from "next/link";
 import React from "react";
 
 function ProductCard({ product }: { product: ProductType }) {
+  const [productSize, setProductSize] = React.useState(product.sizes[0]);
+  const [productColor, setProductColor] = React.useState(product.colors[0]);
   return (
     <div className="rounded-lg shadow-lg overflow-hidden">
       {/* Image */}
       <Link href={`/product/${product.id}`}>
         <div className="relative aspect-[2/3]">
           <Image
-            src={product.images[product.colors[0]]} //per ora prendo il primo colore
+            src={product.images[productColor]} // Usa il colore selezionato
             alt={product.name}
             fill
             className="object-cover hover:scale-105 transition-all duration-300"
@@ -36,6 +38,8 @@ function ProductCard({ product }: { product: ProductType }) {
             <select
               name="size"
               id="size"
+              value={productSize}
+              onChange={(e) => setProductSize(e.target.value)}
               className="ring ring-gray-300 rounded-md px-2 py-1"
             >
               {product.sizes.map((size) => (
@@ -50,9 +54,17 @@ function ProductCard({ product }: { product: ProductType }) {
             <span className="text-gray-500">Color</span>
             <div className="flex items-center gap-2">
               {product.colors.map((color) => (
-                <div className="" key={color}>
+                <div
+                  className={`cursor-pointer border-1 ${
+                    productColor === color
+                      ? "border-gray-400"
+                      : "border-gray-200"
+                  } rounded-full p-[1.2px]`}
+                  key={color}
+                  onClick={() => setProductColor(color)}
+                >
                   <div
-                    className="w-[14px] h-[14px] rounded-full border border-gray-300"
+                    className="w-[14px] h-[14px] rounded-full"
                     style={{ backgroundColor: color }}
                   />
                 </div>
