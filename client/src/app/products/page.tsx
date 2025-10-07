@@ -13,7 +13,7 @@ async function ProductPage({
   const category = (await searchParams).category || "all";
   return (
     <div className="">
-      <ProductList category={category} />
+      <ProductList category={category} page="products" />
     </div>
   );
 }
