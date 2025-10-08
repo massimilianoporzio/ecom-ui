@@ -10,3 +10,4 @@ export { default as ProductList } from "./ProductList";
 export { default as ProductCard } from "./ProductCard";
 export { default as Categories } from "./Categories";
 export { default as Filter } from "./Filter";
+export { default as ShoppingCartIcon } from "./ShoppingCartIcon";
