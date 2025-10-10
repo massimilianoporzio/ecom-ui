@@ -3,11 +3,13 @@
  *   All rights reserved.
  */
 "use client";
+import { CartItem, PaymentForm, ShippingForm } from "@/components";
 import { CartItemsType } from "@/types";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Car, Ship } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { title } from "process";
+import { useState } from "react";
 
 //interattività lato client
 const steps = [
@@ -76,6 +78,8 @@ const ShoppingCartPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
+  const [shippingDetails, setShippingDetails] = useState(null);
+  const [paymentDetails, setPaymentDetails] = useState(null);
   return (
     <div className="flex flex-col gap-8 items-center justify-center mt-12">
       {/* TITLE*/}
@@ -103,19 +107,49 @@ const ShoppingCartPage = () => {
       <div className="w-full flex flex-col lg:flex-row gap-16">
         {/* STEP CONTENT */}
         <div className="w-full lg:w-7/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
-          1
+          {activeStep === 1 ? (
+            <div className="flex flex-col gap-2">
+              {cartItems.map((item) => (
+                <CartItem cartItem={item} key={item.id} />
+              ))}
+            </div>
+          ) : activeStep === 2 ? (
+            <ShippingForm />
+          ) : activeStep === 3 && shippingDetails ? (
+            <PaymentForm />
+          ) : (
+            <p className="text-sm text-gray-500">
+              Please complete the shipping form first
+            </p>
+          )}
         </div>
         {/* DETAILS */}
-        <div className="w-full lg:w-5/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
+        <div className="w-full lg:w-5/12 shadow-lg border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8 h-max">
           <h2 className="font-semibold">Cart Details</h2>
           <div className="flex flex-col gap-4">
             <div className="flex  justify-between text-sm">
               <p className="text-gray-500">Subtotal</p>
-              <p className="font-medium">{cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}€</p>
+              <p className="font-medium">
+                {cartItems
+                  .reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  )
+                  .toFixed(2)}
+                €
+              </p>
             </div>
             <div className="flex  justify-between text-sm">
               <p className="text-gray-500">Discount (10%)</p>
-              <p className="font-medium text-red-400">{(cartItems.reduce((total, item) => total + item.price * item.quantity, 0) * 0.1).toFixed(2)}€</p>
+              <p className="font-medium text-red-400">
+                {(
+                  cartItems.reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  ) * 0.1
+                ).toFixed(2)}
+                €
+              </p>
             </div>
             <div className="flex  justify-between text-sm">
               <p className="text-gray-500">Shipping Fee</p>
@@ -124,16 +158,34 @@ const ShoppingCartPage = () => {
             <hr className="border-gray-200" />
             <div className="flex  justify-between">
               <p className="text-gray-800 font-semibold">Total</p>
-              <p className="font-medium">{(cartItems.reduce((total, item) => total + item.price * item.quantity, 0) - (cartItems.reduce((total, item) => total + item.price * item.quantity, 0) * 0.1) + 10).toFixed(2)}€</p>
+              <p className="font-medium">
+                {(
+                  cartItems.reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  ) -
+                  cartItems.reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  ) *
+                    0.1 +
+                  10
+                ).toFixed(2)}
+                €
+              </p>
             </div>
           </div>
-          {activeStep==1&&
-          <button onClick={()=>router.push("/cart?step=2",{scroll:false})} className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer flex items-center justify-center gap-2">
-            Continue
-            <ArrowRight className="w-3 h-3"/>
-          </button>
-          }
-        </div>      </div>
+          {activeStep == 1 && (
+            <button
+              onClick={() => router.push("/cart?step=2", { scroll: false })}
+              className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer flex items-center justify-center gap-2"
+            >
+              Continue
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          )}
+        </div>{" "}
+      </div>
     </div>
   );
 };

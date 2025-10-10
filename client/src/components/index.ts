@@ -11,3 +11,6 @@ export { default as ProductCard } from "./ProductCard";
 export { default as Categories } from "./Categories";
 export { default as Filter } from "./Filter";
 export { default as ShoppingCartIcon } from "./ShoppingCartIcon";
+export { default as ShippingForm } from "./ShippingForm";
+export { default as PaymentForm } from "./PaymentForm";
+export { default as CartItem } from "./CartItem";
